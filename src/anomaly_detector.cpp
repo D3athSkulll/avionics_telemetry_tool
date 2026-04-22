@@ -6,8 +6,7 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
 
     std::vector<Anomaly> anomalies;
 
-    for (size_t i = 0; i < data.size(); i++)
-    {
+    for (size_t i = 0; i < data.size(); i++){
         const auto &curr = data[i];
 
         //Threshold based checks
