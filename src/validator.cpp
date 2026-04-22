@@ -21,7 +21,7 @@ void Validator::clean(std::vector<TelemetryRecord>& data){
         [](const TelemetryRecord &a, const TelemetryRecord &b){
             return a.timestamp < b.timestamp;
         }
-    )
+    );
 
     // Remove Duplicate Timestamps
     std::vector<TelemetryRecord> unique_data;

@@ -1,5 +1,6 @@
 #include "telemetry_record.hpp"
 #include "csv_reader.hpp"
+#include "filter.hpp"
 
 #include <iostream>
 
@@ -9,5 +10,8 @@ int main(){
 
     std::cout << "Records read: " << data.size() << "\n";
 
+    Filter filter;
+    filter.applyMovingAverage(data, 3);
+    std::cout << "Applied Filter"<<std::endl;
     return 0;
 }
