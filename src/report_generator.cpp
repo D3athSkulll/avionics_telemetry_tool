@@ -4,6 +4,85 @@
 #include <iostream>
 #include <sstream>
 
+#include <cmath>
+
+std::string ReportGenerator::generateFilteringAnalysis(
+    const std::vector<TelemetryRecord>& raw_data,
+    const std::vector<TelemetryRecord>& filtered_data
+) {
+    std::ostringstream out;
+
+    out << "Moving average filter (window = 3) applied.\n\n";
+
+    double temp_diff = 0, vel_diff = 0;
+    int temp_count = 0, vel_count = 0;
+
+    // 🔹 Compute smoothing metrics
+    for (size_t i = 0; i < raw_data.size(); i++) {
+
+        if (!std::isnan(raw_data[i].temp_c) &&
+            !std::isnan(filtered_data[i].temp_c)) {
+
+            temp_diff += std::abs(raw_data[i].temp_c - filtered_data[i].temp_c);
+            temp_count++;
+        }
+
+        if (!std::isnan(raw_data[i].velocity_mps) &&
+            !std::isnan(filtered_data[i].velocity_mps)) {
+
+            vel_diff += std::abs(raw_data[i].velocity_mps - filtered_data[i].velocity_mps);
+            vel_count++;
+        }
+    }
+
+    double avg_temp = temp_count ? temp_diff / temp_count : 0;
+    double avg_vel = vel_count ? vel_diff / vel_count : 0;
+
+    // 🔹 Print quantitative results
+    out << "Average smoothing:\n";
+    out << "Temperature: " << avg_temp << "\n";
+    out << "Velocity: " << avg_vel << "\n\n";
+
+    // 🔹 Sample comparison (dynamic size)
+    int sample = std::min((int)raw_data.size(), std::max(3, (int)raw_data.size() / 20));
+
+    out << "Sample comparison (Raw -> Filtered):\n";
+
+    for (int i = 0; i < sample; i++) {
+        out << "Time " << raw_data[i].timestamp
+            << " | Temp: " << raw_data[i].temp_c
+            << " -> " << filtered_data[i].temp_c
+            << " | Velocity: " << raw_data[i].velocity_mps
+            << " -> " << filtered_data[i].velocity_mps
+            << "\n";
+    }
+
+    out << "\n";
+
+    // 🔹 Dynamic interpretation
+    out << "Interpretation:\n";
+
+    // Temperature analysis
+    if (avg_temp < 0.1)
+        out << "- Temperature signal is highly stable (minimal smoothing needed).\n";
+    else if (avg_temp < 1.0)
+        out << "- Moderate temperature smoothing observed.\n";
+    else
+        out << "- High temperature fluctuations detected (filter significantly reduced noise).\n";
+
+    // Velocity analysis
+    if (avg_vel < 1.0)
+        out << "- Velocity signal is stable.\n";
+    else if (avg_vel < 10.0)
+        out << "- Moderate velocity variations smoothed.\n";
+    else
+        out << "- Significant velocity spikes present (high smoothing impact).\n";
+
+    out << "\n";
+
+    return out.str();
+}
+
 std::string ReportGenerator::generateAnalysis(
     const std::vector<Anomaly> &anomalies,
     const std::vector<Fault> &faults
@@ -66,7 +145,8 @@ std::string ReportGenerator::generateAnalysis(
 
 void ReportGenerator::generate(
     const std::string &file_path,
-    const std::vector<TelemetryRecord> &data,
+    const std::vector<TelemetryRecord> &filtered_data,
+    const std::vector<TelemetryRecord> &cleaned_data,
     const std::vector<Anomaly> &anomalies,
     const std::vector<Fault> &faults,
     const Validator &validator
@@ -85,8 +165,8 @@ void ReportGenerator::generate(
     out << "Duplicates removed: " << validator.duplicates_removed << "\n\n";
     
     // Summary
-    out << "=== Cleaned Data Telemetry Analysis Report ===\n\n";
-    out << "Total records processed: " << data.size() << "\n";
+    out << "=== Validated Data Telemetry Analysis Report ===\n\n";
+    out << "Total records processed: " << cleaned_data.size() << "\n";
     out << "Total anomalies detected: " << anomalies.size() << "\n";
     out << "Total faults detected: " << faults.size() << "\n\n";
 
@@ -138,8 +218,11 @@ void ReportGenerator::generate(
     
     out <<"\n";
 
-    out << "=== Analysis Summary ===\n";
+    out << "=== Cleaned Data Analysis Summary ===\n";
     out << generateAnalysis(anomalies, faults);
 
+
+    out << "=== Filtering Effect & Analysis ===\n";
+    out << generateFilteringAnalysis(cleaned_data, filtered_data);
     out.close();
 }

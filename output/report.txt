@@ -1,8 +1,21 @@
-=== Telemetry Analysis Report ===
+=== Raw Data Quality ===
+Original records: 100
+Final records: 97
+Duplicates removed: 3
 
-Total records processed: 100
+=== Validated Data Telemetry Analysis Report ===
+
+Total records processed: 97
 Total anomalies detected: 15
 Total faults detected: 0
+
+=== Anomaly Breakdown ===
+Temperature anomalies: 4
+Pressure anomalies: 2
+Velocity anomalies: 3
+Vibration anomalies: 3
+Acceleration anomalies: 3
+Altitude anomalies: 0
 
 === Anomalies ===
 Time: 14, Sensor: temp_c, Type: threshold, Value: 60.57
@@ -22,3 +35,31 @@ Time: 83, Sensor: temp_c, Type: threshold, Value: 62.37
 Time: 90, Sensor: vibration_g, Type: threshold, Value: 0.383
 
 === Faults ===
+None
+
+=== Cleaned Data Analysis Summary ===
+Total anomalies detected: 15.
+Most anomalies occurred in temperature (4 occurrences).
+Velocity spikes indicate abrupt system changes.
+Temperature spikes suggest thermal variations.
+Vibration/acceleration anomalies indicate possible mechanical stress.
+Pressure deviations indicate environmental inconsistencies.
+No critical faults were detected.
+
+=== Filtering Effect & Analysis ===
+Moving average filter (window = 3) applied.
+
+Average smoothing:
+Temperature: 2.00856
+Velocity: 7.46047
+
+Sample comparison (Raw -> Filtered):
+Time 0 | Temp: 25 -> 25 | Velocity: 248.8 -> 248.8
+Time 1 | Temp: 25.05 -> 25.025 | Velocity: 249.4 -> 249.1
+Time 2 | Temp: 25.1 -> 25.05 | Velocity: 249.98 -> 249.393
+Time 3 | Temp: 25.14 -> 25.0967 | Velocity: 250.56 -> 249.98
+
+Interpretation:
+- High temperature fluctuations detected (filter significantly reduced noise).
+- Moderate velocity variations smoothed.
+

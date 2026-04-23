@@ -18,12 +18,14 @@ int main() {
         return 1;
     }
 
+
+
     // Validation
     Validator validator;
     validator.clean(data);
 
     // Preserve raw data for anomaly detection
-    auto raw_data = data;
+    auto cleaned_data = data;
 
     // Filtering (for reporting/smoothing)
     Filter filter;
@@ -32,7 +34,7 @@ int main() {
     // Anomaly Detection
     Config cfg;
     AnomalyDetector detector(cfg);
-    auto anomalies = detector.detect(raw_data);
+    auto anomalies = detector.detect(cleaned_data);
 
     // Fault Detection
     FaultDetector faultDetector;
@@ -42,8 +44,9 @@ int main() {
     ReportGenerator reporter;
     reporter.generate(
         "output/report.txt",
-        data,
-        anomalies,
+        data, // send filter data
+        cleaned_data, // clean raw data
+        anomalies,// find anamolies on raw data
         faults,
         validator
     );

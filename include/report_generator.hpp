@@ -12,6 +12,7 @@ class ReportGenerator {
         void generate(
             const std::string& file_path,
             const std::vector<TelemetryRecord>& data,
+            const std::vector<TelemetryRecord>& cleaned_data,
             const std::vector<Anomaly>& anomalies,
             const std::vector<Fault>& faults,
             const Validator &validator
@@ -21,5 +22,9 @@ class ReportGenerator {
         std::string generateAnalysis(
             const std::vector<Anomaly> &anomalies,
             const std::vector<Fault> &faults
+        );
+        std::string generateFilteringAnalysis(
+            const std::vector<TelemetryRecord>& cleaned_data,
+            const std::vector<TelemetryRecord>& filtered_data
         );
 };
