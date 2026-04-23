@@ -3,7 +3,9 @@
 #include "filter.hpp"
 #include "anomaly_detector.hpp"
 #include "fault_detector.hpp"
+#include "config.hpp"
 #include "report_generator.hpp"
+
 
 #include <iostream>
 
@@ -13,12 +15,15 @@ int main(){
 
     std::cout << "Records read: " << data.size() << "\n";
 
+    auto raw_data = data;
+
     Filter filter;
     filter.applyMovingAverage(data, 3);
     std::cout << "Applied Filter"<<std::endl;
 
-    AnomalyDetector detector;
-    auto anomalies = detector.detect(data);
+    Config cfg;
+    AnomalyDetector detector(cfg);
+    auto anomalies = detector.detect(raw_data);
 
     int threshold_count = 0;
     int trend_count = 0;

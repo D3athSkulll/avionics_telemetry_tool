@@ -28,7 +28,7 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
         }
 
         //Threshold based checks
-        if (curr.temp_c < -40 || curr.temp_c > 50){
+        if (curr.temp_c < -40 || curr.temp_c > config.temp_max){
             anomalies.push_back({
                 curr.timestamp,
                 "temp_c",
@@ -37,7 +37,7 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
             });
         }
 
-        if (curr.pressure_kpa < 99 || curr.pressure_kpa > 102){
+        if (curr.pressure_kpa < config.pressure_min || curr.pressure_kpa > config.pressure_max){
             anomalies.push_back({
                 curr.timestamp,
                 "pressure_kpa",
@@ -46,7 +46,7 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
             });
         }
 
-        if (curr.vibration_g > 0.3){
+        if (curr.vibration_g > config.vibration_max){
             anomalies.push_back({
                 curr.timestamp,
                 "vibration_g",
@@ -55,7 +55,7 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
             });
         }
 
-        if (curr.accel_g > 1.2){
+        if (curr.accel_g > config.accel_max){
             anomalies.push_back({
                 curr.timestamp,
                 "accel_g",
@@ -71,7 +71,7 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
             last_valid_altitude = curr.altitude_m;
             has_valid_altitude = true;
         } else {
-            if (std::abs(curr.altitude_m - last_valid_altitude) > 50) {
+            if (std::abs(curr.altitude_m - last_valid_altitude) > config.altitude_jump) {
                 anomalies.push_back({
                     curr.timestamp,
                     "altitude_m",
@@ -90,7 +90,7 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
         } else{
             double prev_velocity = last_valid_velocity;
             // Detect Spikes in velocity
-            if (curr.velocity_mps > prev_velocity + 80) {
+            if (curr.velocity_mps > prev_velocity + config.velocity_jump) {
                 anomalies.push_back({
                     curr.timestamp,
                     "velocity_mps",

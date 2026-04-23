@@ -1,9 +1,10 @@
 #pragma once
 
+#include "telemetry_record.hpp"
+#include "config.hpp"
+
 #include <vector>
 #include <string>
-#include "telemetry_record.hpp"
-
 struct Anomaly{
     long long timestamp;
     std::string sensor;
@@ -14,6 +15,10 @@ struct Anomaly{
 //Check if sudden jump from previous → trend anomaly
 
 class AnomalyDetector{
+    private:
+        Config config;
     public:
+        AnomalyDetector(const Config& c = Config()) : config(c) {}
+
         std::vector<Anomaly> detect(const std::vector<TelemetryRecord> &data);
 };

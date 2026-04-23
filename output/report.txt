@@ -1,46 +1,24 @@
 === Telemetry Analysis Report ===
 
 Total records processed: 100
-Total anomalies detected: 27
-Total faults detected: 10
+Total anomalies detected: 15
+Total faults detected: 0
 
 === Anomalies ===
-Time: 6, Sensor: pressure_kpa, Type: threshold, Value: 67.5467
-Time: 6, Sensor: altitude_m, Type: trend, Value: 679.333
-Time: 7, Sensor: pressure_kpa, Type: threshold, Value: 67.53
-Time: 8, Sensor: pressure_kpa, Type: threshold, Value: 67.5133
-Time: 9, Sensor: altitude_m, Type: trend, Value: 1034
-Time: 9, Sensor: velocity_mps, Type: trend, Value: 253.3
-Time: 28, Sensor: velocity_mps, Type: trend, Value: 263.413
-Time: 33, Sensor: altitude_m, Type: trend, Value: 749.333
-Time: 36, Sensor: altitude_m, Type: trend, Value: 1138
-Time: 36, Sensor: velocity_mps, Type: trend, Value: 268.417
-Time: 45, Sensor: pressure_kpa, Type: threshold, Value: 67.1733
-Time: 45, Sensor: altitude_m, Type: trend, Value: 782.667
-Time: 46, Sensor: pressure_kpa, Type: threshold, Value: 67.1633
-Time: 47, Sensor: pressure_kpa, Type: threshold, Value: 67.16
-Time: 48, Sensor: altitude_m, Type: trend, Value: 1188.67
-Time: 48, Sensor: velocity_mps, Type: trend, Value: 276.59
-Time: 69, Sensor: altitude_m, Type: trend, Value: 846.667
-Time: 72, Sensor: altitude_m, Type: trend, Value: 1282.67
-Time: 72, Sensor: velocity_mps, Type: trend, Value: 350.57
-Time: 76, Sensor: velocity_mps, Type: trend, Value: 195.26
-Time: 77, Sensor: velocity_mps, Type: trend, Value: 293.153
-Time: 87, Sensor: pressure_kpa, Type: threshold, Value: 66.82
-Time: 87, Sensor: altitude_m, Type: trend, Value: 893
-Time: 88, Sensor: pressure_kpa, Type: threshold, Value: 66.7967
-Time: 89, Sensor: pressure_kpa, Type: threshold, Value: 66.78
-Time: 90, Sensor: altitude_m, Type: trend, Value: 1356
-Time: 90, Sensor: velocity_mps, Type: trend, Value: 300.687
+Time: 14, Sensor: temp_c, Type: threshold, Value: 60.57
+Time: 18, Sensor: pressure_kpa, Type: threshold, Value: 98.57
+Time: 21, Sensor: velocity_mps, Type: trend, Value: 440.05
+Time: 29, Sensor: vibration_g, Type: threshold, Value: 0.375
+Time: 37, Sensor: temp_c, Type: threshold, Value: 60.96
+Time: 40, Sensor: accel_g, Type: threshold, Value: 1.257
+Time: 49, Sensor: velocity_mps, Type: trend, Value: 457.93
+Time: 55, Sensor: accel_g, Type: threshold, Value: 1.258
+Time: 58, Sensor: temp_c, Type: threshold, Value: 61.86
+Time: 64, Sensor: pressure_kpa, Type: threshold, Value: 98.11
+Time: 66, Sensor: vibration_g, Type: threshold, Value: 0.376
+Time: 72, Sensor: velocity_mps, Type: trend, Value: 471.08
+Time: 78, Sensor: accel_g, Type: threshold, Value: 1.272
+Time: 83, Sensor: temp_c, Type: threshold, Value: 62.37
+Time: 90, Sensor: vibration_g, Type: threshold, Value: 0.383
 
 === Faults ===
-Time: 6 -> Altitude instability detected
-Time: 9 -> Altitude instability detected
-Time: 33 -> Altitude instability detected
-Time: 36 -> Altitude instability detected
-Time: 45 -> Altitude instability detected
-Time: 48 -> Altitude instability detected
-Time: 69 -> Altitude instability detected
-Time: 72 -> Altitude instability detected
-Time: 87 -> Altitude instability detected
-Time: 90 -> Altitude instability detected
