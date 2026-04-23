@@ -165,8 +165,8 @@ void ReportGenerator::generate(
     out << "Duplicates removed: " << validator.duplicates_removed << "\n\n";
     
     // Summary
-    out << "=== Validated Data Telemetry Analysis Report ===\n\n";
-    out << "Total records processed: " << cleaned_data.size() << "\n";
+    out << "=== Telemetry Analysis Report ===\n\n";
+    out << "Total records processed: " << filtered_data.size() << "\n";
     out << "Total anomalies detected: " << anomalies.size() << "\n";
     out << "Total faults detected: " << faults.size() << "\n\n";
 
@@ -218,7 +218,7 @@ void ReportGenerator::generate(
     
     out <<"\n";
 
-    out << "=== Cleaned Data Analysis Summary ===\n";
+    out << "=== Telemetry Analysis Summary ===\n";
     out << generateAnalysis(anomalies, faults);
 
 

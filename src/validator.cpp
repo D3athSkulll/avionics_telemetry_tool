@@ -1,5 +1,3 @@
-#pragma once
-
 #include "validator.hpp"
 #include <algorithm>
 

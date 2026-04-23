@@ -3,7 +3,7 @@ Original records: 100
 Final records: 97
 Duplicates removed: 3
 
-=== Validated Data Telemetry Analysis Report ===
+=== Telemetry Analysis Report ===
 
 Total records processed: 97
 Total anomalies detected: 15
@@ -37,7 +37,7 @@ Time: 90, Sensor: vibration_g, Type: threshold, Value: 0.383
 === Faults ===
 None
 
-=== Cleaned Data Analysis Summary ===
+=== Telemetry Analysis Summary ===
 Total anomalies detected: 15.
 Most anomalies occurred in temperature (4 occurrences).
 Velocity spikes indicate abrupt system changes.
