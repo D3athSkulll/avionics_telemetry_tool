@@ -5,12 +5,30 @@
 std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>& data){
 
     std::vector<Anomaly> anomalies;
+    
+    if (data.empty()) return anomalies;
+
+    double last_valid_velocity = 0;
+    bool has_valid_velocity = false;
+
+    double last_valid_altitude = 0;
+    bool has_valid_altitude = false;
+
 
     for (size_t i = 0; i < data.size(); i++){
         const auto &curr = data[i];
 
+        if (std::isnan(curr.temp_c) ||
+            std::isnan(curr.pressure_kpa) ||
+            std::isnan(curr.altitude_m) ||
+            std::isnan(curr.velocity_mps) ||
+            std::isnan(curr.vibration_g) ||
+            std::isnan(curr.accel_g)) {
+            continue;  // skip invalid record
+        }
+
         //Threshold based checks
-        if (curr.temp_c < 40 || curr.temp_c > 85){
+        if (curr.temp_c < -40 || curr.temp_c > 50){
             anomalies.push_back({
                 curr.timestamp,
                 "temp_c",
@@ -19,7 +37,16 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
             });
         }
 
-        if (curr.vibration_g > 2.0){
+        if (curr.pressure_kpa < 99 || curr.pressure_kpa > 102){
+            anomalies.push_back({
+                curr.timestamp,
+                "pressure_kpa",
+                "threshold",
+                curr.pressure_kpa,
+            });
+        }
+
+        if (curr.vibration_g > 0.3){
             anomalies.push_back({
                 curr.timestamp,
                 "vibration_g",
@@ -28,7 +55,7 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
             });
         }
 
-        if (curr.accel_g > 5.0){
+        if (curr.accel_g > 1.2){
             anomalies.push_back({
                 curr.timestamp,
                 "accel_g",
@@ -37,10 +64,14 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
             });
         }
 
-        if (i>0){
-            const auto &prev = data[i-1];
+        // Trend-based checks
 
-            if (std::abs(curr.altitude_m - prev.altitude_m) > 100){
+        // --- Altitude trend ---
+        if (!has_valid_altitude) {
+            last_valid_altitude = curr.altitude_m;
+            has_valid_altitude = true;
+        } else {
+            if (std::abs(curr.altitude_m - last_valid_altitude) > 50) {
                 anomalies.push_back({
                     curr.timestamp,
                     "altitude_m",
@@ -48,15 +79,27 @@ std::vector<Anomaly> AnomalyDetector::detect(const std::vector<TelemetryRecord>&
                     curr.altitude_m,
                 });
             }
+            last_valid_altitude = curr.altitude_m;
+        }
 
-            if (std::abs(curr.velocity_mps - prev.velocity_mps) > 50){
+        // --- Velocity trend ---
+        // Initialize first valid velocity
+        if (!has_valid_velocity) {
+            last_valid_velocity = curr.velocity_mps;
+            has_valid_velocity = true;
+        } else{
+            double prev_velocity = last_valid_velocity;
+            // Detect Spikes in velocity
+            if (curr.velocity_mps > prev_velocity + 80) {
                 anomalies.push_back({
                     curr.timestamp,
                     "velocity_mps",
                     "trend",
                     curr.velocity_mps,
                 });
+                // cooldown = 2;  // activate cooldown
             }
+            last_valid_velocity = curr.velocity_mps;
         }
     }
     return anomalies;    

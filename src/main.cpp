@@ -3,6 +3,7 @@
 #include "filter.hpp"
 #include "anomaly_detector.hpp"
 #include "fault_detector.hpp"
+#include "report_generator.hpp"
 
 #include <iostream>
 
@@ -18,6 +19,17 @@ int main(){
 
     AnomalyDetector detector;
     auto anomalies = detector.detect(data);
+
+    int threshold_count = 0;
+    int trend_count = 0;
+
+    for (const auto& a : anomalies) {
+        if (a.type == "threshold") threshold_count++;
+        else if (a.type == "trend") trend_count++;
+    }
+
+    std::cout << "Threshold anomalies: " << threshold_count << "\n";
+    std::cout << "Trend anomalies: " << trend_count << "\n";
 
     std::cout << "\nAnomalies found: " << anomalies.size() << "\n";
 
@@ -38,6 +50,16 @@ int main(){
         std::cout << "Time: " << faults[i].timestamp
                   << " -> " << faults[i].description << "\n";
     }
+
+    ReportGenerator reporter;
+    reporter.generate(
+        "output/report.txt",
+        data,
+        anomalies,
+        faults
+    );
+
+    std::cout << "\nReport generated at output/report.txt\n";
 
     return 0;
 }

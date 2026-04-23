@@ -10,7 +10,7 @@ std::vector<Fault> FaultDetector::detect(const std::vector<Anomaly> &anomalies){
 
         //Rule 1 : High Vibration + high Accel
         if(a.sensor == "vibration_g"){
-            for (size_t j = 0; i < anomalies.size(); j++){
+            for (size_t j = 0; j < anomalies.size(); j++){
                 if(anomalies[j].timestamp == a.timestamp &&
                     anomalies[j].sensor == "accel_g"){
                         faults.push_back({
