@@ -71,19 +71,43 @@ Raw Data → Validation → Filtering → Anomaly Detection → Fault Detection 
 
 ### 🔹 Compile Main Application
 
+For Linux
+
 ```bash
 g++ -std=c++23 src/*.cpp -Iinclude -o telemetry_tool
+```
+For Windows
+
+```shell
+$files = Get-ChildItem src -Filter *.cpp | Select-Object -ExpandProperty FullName
+g++ -std=c++23 $files -Iinclude -o telemetry_tool.exe
 ```
 
 ---
 
 ### 🔹 Compile Tests (excluding main.cpp)
 
+For Linux
+
 ```bash
 g++ -std=c++23 tests/test.cpp \
 src/csv_reader.cpp src/filter.cpp src/anomaly_detector.cpp \
 src/fault_detector.cpp src/validator.cpp src/report_generator.cpp \
 -Iinclude -o test_app
+```
+
+For Windows
+
+```shell
+g++ -std=c++23 tests/test.cpp `
+src/csv_reader.cpp `
+src/filter.cpp `
+src/anomaly_detector.cpp `
+src/fault_detector.cpp `
+src/validator.cpp `
+src/report_generator.cpp `
+-Iinclude `
+-o test_app.exe
 ```
 
 ---
