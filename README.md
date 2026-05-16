@@ -1,7 +1,7 @@
 # Avionics Telemetry Analysis Tool
 
 C++-based telemetry analysis tool designed to process, clean, and analyze avionics sensor data and identify abnormal behavior.
----
+
 
 ## ⚙️ Processing Pipeline
 
