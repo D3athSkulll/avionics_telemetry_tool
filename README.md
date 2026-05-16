@@ -1,17 +1,6 @@
-# 📡 Avionics Telemetry Analysis Tool
+# Avionics Telemetry Analysis Tool
 
-## 📖 Overview
-
-This project is a C++-based telemetry analysis system designed to process, clean, and analyze avionics sensor data. It performs a complete data pipeline including:
-
-* Data validation
-* Noise filtering
-* Anomaly detection
-* Fault detection
-* Report generation
-
-The system is built to simulate real-world telemetry monitoring where identifying abnormal behavior is critical for system reliability and safety.
-
+C++-based telemetry analysis tool designed to process, clean, and analyze avionics sensor data and identify abnormal behavior.
 ---
 
 ## ⚙️ Processing Pipeline
